@@ -1,0 +1,99 @@
+options {
+  STATIC = false;
+  LOOKAHEAD = 1;
+}
+
+PARSER_BEGIN(SetExprParser)
+import java.util.*;
+
+public class SetExprParser {
+  public static void main(String args[]) {
+    System.out.println("Analisador SetExpr no ar. Digite uma expressão:");
+    SetExprParser parser = new SetExprParser(System.in);
+    try {
+      Expressao exp = parser.PExpressao();
+      System.out.println("Sintaxe correta!");
+      Valor resultado = exp.avaliar(null); 
+      System.out.println("Resultado da avaliacao: " + resultado);
+    } catch (Exception e) {
+      System.out.println("Erro: " + e.getMessage());
+    }
+  }
+}
+PARSER_END(SetExprParser)
+
+SKIP :
+{
+  " " | "\t" | "\n" | "\r"
+}
+
+TOKEN :
+{
+  < INTEGER_LITERAL: (["0"-"9"])+ >
+| < LBRACE: "{" >
+| < RBRACE: "}" >
+| < COMMA: "," >
+| < UNION: "union" >
+}
+
+// --- Regras da Gramática Corrigidas ---
+
+Expressao PExpressao() :
+{
+  Expressao retorno;
+}
+{
+  retorno = PExpUniao()
+  { return retorno; }
+}
+
+Expressao PExpUniao() :
+{
+  Expressao prim, seg;
+}
+{
+  prim = PExpPrimaria()
+  (
+    <UNION> seg = PExpPrimaria()
+    { prim = new ExpUniao(prim, seg); }
+  )*
+  { return prim; }
+}
+
+Expressao PExpPrimaria() :
+{
+  Expressao retorno;
+}
+{
+  (
+    retorno = PValor()
+    | retorno = PExpConjunto()
+  )
+  { return retorno; }
+}
+
+Expressao PValor() :
+{
+  Token t;
+}
+{
+  t = <INTEGER_LITERAL>
+  { return new ValorInteiro(Integer.parseInt(t.image)); }
+}
+
+Expressao PExpConjunto() :
+{
+    List<Expressao> elementos = new ArrayList<Expressao>();
+    Expressao exp;
+}
+{
+    <LBRACE>
+    (
+        exp = PExpressao() { elementos.add(exp); }
+        (
+            <COMMA> exp = PExpressao() { elementos.add(exp); }
+        )*
+    )?
+    <RBRACE>
+    { return new ExpConjunto(elementos); }
+}
