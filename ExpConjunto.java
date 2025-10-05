@@ -22,7 +22,6 @@ public class ExpConjunto implements Expressao {
         return new ValorConjunto(valores);
     }
     
-    // Deixaremos a checagem de tipo para depois.
     public boolean checaTipo(AmbienteCompilacao amb) {
         return true; 
     }
