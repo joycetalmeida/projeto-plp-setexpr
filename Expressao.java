@@ -1,4 +1,4 @@
-// Interface que toda expressão da nossa linguagem deve implementar.
+// Interface que toda expressão da linguagem deve implementar.
 public interface Expressao {
     
     // Avalia o valor da expressão.
