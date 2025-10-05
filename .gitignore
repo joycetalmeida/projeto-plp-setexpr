@@ -1,0 +1,10 @@
+*.class
+ParseException.java
+SetExprParser.java
+SetExprParserConstants.java
+SetExprParserTokenManager.java
+SimpleCharStream.java
+Token.java
+TokenMgrError.java
+.settings/
+.vscode/
