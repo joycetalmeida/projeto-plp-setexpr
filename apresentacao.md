@@ -331,7 +331,7 @@ A subset B → A ⊆ B ≡ ∀x(x ∈ A → x ∈ B)
 
 #### 4.2.1 Suite de Testes Implementada
 
-**Arquivo:** `teste.setexpr`
+**Arquivo:** `teste_total.setexpr`
 - 34 casos de teste cobrindo todas as funcionalidades
 - Validação de operações aritméticas, lógicas e de conjunto
 - Testes de compreensões e ranges
