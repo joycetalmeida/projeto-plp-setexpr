@@ -6,7 +6,7 @@
 **Equipe:** Joyce Almeida, Rafael Moura, Ricardo Azevedo  
 **Data:** 21 de Outubro de 2025
 
-[Slides]([https://www.sua-url.com](https://docs.google.com/presentation/d/1ErbcTf9j46re6INa-PVDWOG7nH_kpSBkXuP_CuM4bXU/edit?usp=sharing))
+[Slides]([https://www.sua-url.com](https://docs.google.com/presentation/d/1ErbcTf9j46re6INa-PVDWOG7nH_kpSBkXuP_CuM4bXU/edit?usp=sharing)
 ---
 
 ## 1. Introdução ao Projeto
