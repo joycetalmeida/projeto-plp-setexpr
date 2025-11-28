@@ -49,6 +49,7 @@ import lf1.plp.functional1.expression.set.ExpCardinalidade;
 import lf1.plp.functional1.expression.set.ExpUniaoDistribuida;
 import lf1.plp.functional1.expression.set.ExpIntersecaoDistribuida;
 import lf1.plp.functional1.expression.set.ValorConjunto; // Import para o main
+import lf1.plp.functional1.expression.set.ExpPowerSet;
 // --- FIM DOS IMPORTS ADICIONADOS ---
 
 public class Func1Parser
@@ -172,6 +173,7 @@ TOKEN : /* TOKENS DE SETEXPR */
 | < SUBSET: "subset" >
 | < NUMBER: "#" >
 | < RANGE: ".." >
+| < POWERSET: "powerset" >
 | < D_UNION: "UNION" > // União Distribuída
 | < D_INTER: "INTER" > // Interseção Distribuída
 }
@@ -283,6 +285,7 @@ Expressao PExpLength() : { Expressao retorno; } { <LENGTH> retorno = PExpPrimari
 
 // --- ADICIONADO: Regras unárias de Conjunto ---
 Expressao PExpCardinalidade() : { Expressao retorno; } { <NUMBER> retorno = PExpPrimaria() { return new ExpCardinalidade(retorno); } }
+Expressao PExpPowerSet() : { Expressao retorno; } { < POWERSET > retorno = PExpPrimaria() { return new ExpPowerSet(retorno); } }
 Expressao PExpUniaoDistribuida() : { Expressao retorno; } { <D_UNION> retorno = PExpPrimaria() { return new ExpUniaoDistribuida(retorno); } }
 Expressao PExpIntersecaoDistribuida() : { Expressao retorno; } { <D_INTER> retorno = PExpPrimaria() { return new ExpIntersecaoDistribuida(retorno); } }
 // --- FIM DAS ADIÇÕES ---
@@ -416,6 +419,8 @@ Expressao PExpUnaria() :
   // --- ADICIONADO: Regras unárias de Conjunto ---
   | LOOKAHEAD(PExpCardinalidade())
     retorno = PExpCardinalidade()
+  | LOOKAHEAD(PExpPowerSet())
+    retorno = PExpPowerSet()
   | LOOKAHEAD(PExpUniaoDistribuida())
     retorno = PExpUniaoDistribuida()
   | LOOKAHEAD(PExpIntersecaoDistribuida())
