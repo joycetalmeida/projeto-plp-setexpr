@@ -209,4 +209,34 @@ public class SetExprTest {
         // powerset({}) -> {{}} (Conjunto contendo o vazio)
         assertEval("1", "#(powerset({}))");
     }
+
+    // --- TESTES DE OPERAÇÕES DISTRIBUÍDAS ---
+
+    @Test
+    public void testDistributedUnion() {
+        // UNION {{1, 2}, {2, 3}, {3, 4}} -> {1, 2, 3, 4}
+        assertEval("{1, 2, 3, 4}", "UNION {{1, 2}, {2, 3}, {3, 4}}");
+
+        // UNION {} -> {}
+        assertEval("{}", "UNION {}");
+
+        // UNION {{1}} -> {1}
+        assertEval("{1}", "UNION {{1}}");
+    }
+
+    @Test
+    public void testDistributedIntersection() {
+        // INTER {{1, 2, 3}, {2, 3, 4}, {3, 4, 5}} -> {3}
+        assertEval("{3}", "INTER {{1, 2, 3}, {2, 3, 4}, {3, 4, 5}}");
+
+        // INTER {{1, 2}, {3, 4}} -> {} (Disjuntos)
+        assertEval("{}", "INTER {{1, 2}, {3, 4}}");
+    }
+
+    @Test
+    public void testFailDistributedOpType() {
+        // Deve falhar se o argumento não for um conjunto de conjuntos
+        assertTypeFail("UNION {1, 2, 3}");
+        assertTypeFail("INTER {1, 2, 3}");
+    }
 }
