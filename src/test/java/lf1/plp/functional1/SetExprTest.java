@@ -184,4 +184,29 @@ public class SetExprTest {
     public void testFailFilterConditionNotBoolean() {
         assertTypeFail("{x in 1..5 : 1}"); // Condição não é booleana
     }
+
+    @Test
+    public void testPowerSetBasico() {
+        // powerset({1}) -> {{}, {1}}
+        // Nota: A ordem na string pode variar, então testar cardinalidade é mais seguro
+        // para conjuntos complexos
+        assertEval("2", "#(powerset({1}))");
+    }
+
+    @Test
+    public void testPowerSetDoisElementos() {
+        // powerset({1, 2}) -> {{}, {1}, {2}, {1, 2}}
+        assertEval("4", "#(powerset({1, 2}))"); // 2^2 = 4
+
+        // Verifica se o próprio conjunto está lá
+        assertEval("true", "{1, 2} in (powerset({1, 2}))");
+        // Verifica se o vazio está lá
+        assertEval("true", "{} in (powerset({1, 2}))");
+    }
+
+    @Test
+    public void testPowerSetVazio() {
+        // powerset({}) -> {{}} (Conjunto contendo o vazio)
+        assertEval("1", "#(powerset({}))");
+    }
 }
