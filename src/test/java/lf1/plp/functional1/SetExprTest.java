@@ -136,17 +136,15 @@ public class SetExprTest {
     // --- TESTES DE COMPREENSÃO ---
 
     // @Test
-    // public void testFilter() {
-    // // Falhando por que % não existe
-    // // assertEval("{2, 4}", "{x in 1..5 : x % 2 == 0}");
-    // assertEval("{}", "{x in 1..5 : x > 10}");
-    // }
+    public void testFilter() {
+        assertEval("{2, 4}", "{x in 1..5 : x % 2 == 0}");
+        assertEval("{}", "{x in 1..5 : x > 10}");
+    }
 
     @Test
     public void testMap() {
         assertEval("{3, 4, 5}", "{x + 2 : x in 1..3}");
-        // Precisa da multiplicação
-        // assertEval("{2, 4, 6}", "{x * 2 : x in 1..3}");
+        assertEval("{2, 4, 6}", "{x * 2 : x in 1..3}");
     }
 
     // --- TESTES DE INTEGRAÇÃO COM LF1 ---
