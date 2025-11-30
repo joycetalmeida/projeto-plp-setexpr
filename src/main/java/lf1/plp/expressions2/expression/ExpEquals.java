@@ -42,32 +42,46 @@ public class ExpEquals extends ExpBinaria {
 	 * Realiza a verificacao de tipos desta expressao.
 	 * 
 	 * @param ambiente
-	 *            o ambiente de compila��o.
+	 *                 o ambiente de compila��o.
 	 * @return <code>true</code> se os tipos da expressao sao validos;
 	 *         <code>false</code> caso contrario.
 	 * @exception VariavelNaoDeclaradaException
-	 *                se existir um identificador nao declarado no ambiente.
+	 *                                          se existir um identificador nao
+	 *                                          declarado no ambiente.
 	 * @exception VariavelNaoDeclaradaException
-	 *                se existir um identificador declarado mais de uma vez no
-	 *                mesmo bloco do ambiente.
+	 *                                          se existir um identificador
+	 *                                          declarado mais de uma vez no
+	 *                                          mesmo bloco do ambiente.
 	 */
 	@Override
 	protected boolean checaTipoElementoTerminal(AmbienteCompilacao ambiente)
 			throws VariavelNaoDeclaradaException, VariavelJaDeclaradaException {
-		return getEsq().getTipo(ambiente).eIgual(getDir().getTipo(ambiente));
+
+		Tipo tEsq = getEsq().getTipo(ambiente);
+		Tipo tDir = getDir().getTipo(ambiente);
+
+		System.out.println("--- DEBUG ExpEquals ---");
+		System.out.println("Esq (" + getEsq() + "): " + tEsq + " [Classe: " + tEsq.getClass().getSimpleName() + "]");
+		System.out.println("Dir (" + getDir() + "): " + tDir + " [Classe: " + tDir.getClass().getSimpleName() + "]");
+
+		boolean saoIguais = tEsq.eIgual(tDir);
+		System.out.println("Resultado eIgual(): " + saoIguais);
+		System.out.println("-----------------------");
+
+		return saoIguais;
 	}
 
 	/**
 	 * Retorna os tipos possiveis desta expressao.
 	 * 
 	 * @param ambiente
-	 *            o ambiente de compila��o.
+	 *                 o ambiente de compila��o.
 	 * @return os tipos possiveis desta expressao.
 	 */
 	public Tipo getTipo(AmbienteCompilacao ambiente) {
 		return TipoPrimitivo.BOOLEANO;
 	}
-	
+
 	@Override
 	public ExpBinaria clone() {
 		return new ExpEquals(esq.clone(), dir.clone());

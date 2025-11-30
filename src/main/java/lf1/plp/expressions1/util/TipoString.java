@@ -12,12 +12,16 @@ public class TipoString implements Tipo {
 
     @Override
     public boolean eIgual(Tipo outroTipo) {
+        if (outroTipo instanceof lf1.plp.functional1.util.TipoPolimorfico) {
+            return true;
+        }
+        // 2. Caso contrário, verificamos a igualdade estrita de classe
         return outroTipo instanceof TipoString;
     }
 
     // @Override
     // public boolean eIndeterminado() {
-    //     return false;
+    // return false;
     // }
 
     @Override

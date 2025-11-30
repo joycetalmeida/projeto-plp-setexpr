@@ -12,12 +12,20 @@ public class TipoInteiro implements Tipo {
 
     @Override
     public boolean eIgual(Tipo outroTipo) {
-        return outroTipo instanceof TipoInteiro;
+        // 1. Compatibilidade com Genéricos (Correção anterior)
+        if (outroTipo instanceof lf1.plp.functional1.util.TipoPolimorfico) {
+            return true;
+        }
+
+        // 2. Compatibilidade Semântica:
+        // Aceita qualquer coisa que se identifique como Inteiro,
+        // seja um objeto TipoInteiro ou uma constante TipoPrimitivo.INTEIRO.
+        return outroTipo.eInteiro();
     }
 
     // @Override
     // public boolean eIndeterminado() {
-    //     return false;
+    // return false;
     // }
 
     @Override
@@ -47,7 +55,7 @@ public class TipoInteiro implements Tipo {
         }
         throw new VariavelNaoDeclaradaException(new Id("Tipo mismatch in intersection"));
     }
-    
+
     @Override
     public String toString() {
         return getNome();

@@ -55,89 +55,91 @@ public interface Func1ParserConstants {
   /** RegularExpression Id. */
   int RANGE = 27;
   /** RegularExpression Id. */
-  int POWERSET = 28;
+  int IS_IN = 28;
   /** RegularExpression Id. */
-  int D_UNION = 29;
+  int POWERSET = 29;
   /** RegularExpression Id. */
-  int D_INTER = 30;
+  int D_UNION = 30;
   /** RegularExpression Id. */
-  int INTEGER_LITERAL = 31;
+  int D_INTER = 31;
   /** RegularExpression Id. */
-  int DECIMAL_LITERAL = 32;
+  int INTEGER_LITERAL = 32;
   /** RegularExpression Id. */
-  int HEX_LITERAL = 33;
+  int DECIMAL_LITERAL = 33;
   /** RegularExpression Id. */
-  int OCTAL_LITERAL = 34;
+  int HEX_LITERAL = 34;
   /** RegularExpression Id. */
-  int STRING_LITERAL = 35;
+  int OCTAL_LITERAL = 35;
   /** RegularExpression Id. */
-  int IDENTIFIER = 36;
+  int STRING_LITERAL = 36;
   /** RegularExpression Id. */
-  int LETTER = 37;
+  int IDENTIFIER = 37;
   /** RegularExpression Id. */
-  int DIGIT = 38;
+  int LETTER = 38;
   /** RegularExpression Id. */
-  int LPAREN = 39;
+  int DIGIT = 39;
   /** RegularExpression Id. */
-  int RPAREN = 40;
+  int LPAREN = 40;
   /** RegularExpression Id. */
-  int LBRACE = 41;
+  int RPAREN = 41;
   /** RegularExpression Id. */
-  int RBRACE = 42;
+  int LBRACE = 42;
   /** RegularExpression Id. */
-  int LBRACKET = 43;
+  int RBRACE = 43;
   /** RegularExpression Id. */
-  int RBRACKET = 44;
+  int LBRACKET = 44;
   /** RegularExpression Id. */
-  int SEMICOLON = 45;
+  int RBRACKET = 45;
   /** RegularExpression Id. */
-  int COMMA = 46;
+  int SEMICOLON = 46;
   /** RegularExpression Id. */
-  int DOT = 47;
+  int COMMA = 47;
   /** RegularExpression Id. */
-  int ASSIGN = 48;
+  int DOT = 48;
   /** RegularExpression Id. */
-  int GT = 49;
+  int ASSIGN = 49;
   /** RegularExpression Id. */
-  int LT = 50;
+  int GT = 50;
   /** RegularExpression Id. */
-  int BANG = 51;
+  int LT = 51;
   /** RegularExpression Id. */
-  int TILDE = 52;
+  int BANG = 52;
   /** RegularExpression Id. */
-  int HOOK = 53;
+  int TILDE = 53;
   /** RegularExpression Id. */
-  int COLON = 54;
+  int HOOK = 54;
   /** RegularExpression Id. */
-  int EQ = 55;
+  int COLON = 55;
   /** RegularExpression Id. */
-  int LE = 56;
+  int EQ = 56;
   /** RegularExpression Id. */
-  int GE = 57;
+  int LE = 57;
   /** RegularExpression Id. */
-  int NE = 58;
+  int GE = 58;
   /** RegularExpression Id. */
-  int SC_OR = 59;
+  int NE = 59;
   /** RegularExpression Id. */
-  int SC_AND = 60;
+  int SC_OR = 60;
   /** RegularExpression Id. */
-  int CONCAT = 61;
+  int SC_AND = 61;
   /** RegularExpression Id. */
-  int PLUS = 62;
+  int CONCAT = 62;
   /** RegularExpression Id. */
-  int MINUS = 63;
+  int PLUS = 63;
   /** RegularExpression Id. */
-  int STAR = 64;
+  int MINUS = 64;
   /** RegularExpression Id. */
-  int SLASH = 65;
+  int STAR = 65;
   /** RegularExpression Id. */
-  int BIT_AND = 66;
+  int SLASH = 66;
   /** RegularExpression Id. */
-  int BIT_OR = 67;
+  int BIT_AND = 67;
   /** RegularExpression Id. */
-  int XOR = 68;
+  int BIT_OR = 68;
   /** RegularExpression Id. */
-  int REM = 69;
+  int XOR = 69;
+  /** RegularExpression Id. */
+  int REM = 70;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -172,6 +174,7 @@ public interface Func1ParserConstants {
     "\"subset\"",
     "\"#\"",
     "\"..\"",
+    "\"isin\"",
     "\"powerset\"",
     "\"UNION\"",
     "\"INTER\"",

@@ -1,15 +1,11 @@
 package lf1.plp.functional1.declaration;
 
 import static lf1.plp.expressions1.util.ToStringProvider.listToString;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
 import lf1.plp.expressions1.util.Tipo;
 import lf1.plp.expressions2.expression.Expressao;
 import lf1.plp.expressions2.expression.Id;
-import lf1.plp.expressions2.expression.Valor;
 import lf1.plp.expressions2.memory.AmbienteCompilacao;
 import lf1.plp.expressions2.memory.VariavelJaDeclaradaException;
 import lf1.plp.expressions2.memory.VariavelNaoDeclaradaException;
@@ -21,7 +17,6 @@ import lf1.plp.functional1.util.TipoPolimorfico;
 public class DecFuncao implements DeclaracaoFuncional {
 
 	private Id id;
-
 	private DefFuncao funcao;
 
 	public DecFuncao(Id idFun, List<Id> argsId, Expressao exp) {
@@ -41,11 +36,6 @@ public class DecFuncao implements DeclaracaoFuncional {
 		return funcao.getExp();
 	}
 
-	/**
-	 * Retorna a aridade da funcao declarada. Variaveis tem aridade 0.
-	 * 
-	 * @return a aridade da funcao declarada.
-	 */
 	public int getAridade() {
 		return funcao.getAridade();
 	}
@@ -54,97 +44,105 @@ public class DecFuncao implements DeclaracaoFuncional {
 		return funcao;
 	}
 
-	/**
-	 * Retorna uma representacao String desta expressao. Util para depuracao.
-	 * 
-	 * @return uma representacao String desta expressao.
-	 */
 	@Override
 	public String toString() {
-		return String.format("fun %s (%s) = %s", id, listToString(funcao
-				.getListaId(), ","), funcao.getExp());
+		return String.format("fun %s (%s) = %s", id, listToString(funcao.getListaId(), ","), funcao.getExp());
 	}
 
-	/**
-	 * Realiza a verificacao de tipos desta declara��o.
-	 * 
-	 * @param amb
-	 *            o ambiente de compila��o.
-	 * @return <code>true</code> se os tipos da expressao sao validos;
-	 *         <code>false</code> caso contrario.
-	 * @exception VariavelNaoDeclaradaException
-	 *                se existir um identificador nao declarado no ambiente.
-	 * @exception VariavelNaoDeclaradaException
-	 *                se existir um identificador declarado mais de uma vez no
-	 *                mesmo bloco do ambiente.
-	 */
+	// --- CORREÇÃO 1: Checagem manual para garantir persistência ---
 	public boolean checaTipo(AmbienteCompilacao ambiente)
 			throws VariavelNaoDeclaradaException, VariavelJaDeclaradaException {
 		ambiente.incrementa();
 
-		List<Tipo> params = new ArrayList<Tipo>(getAridade());
-		for (int i = 0; i < getAridade(); i++) {
-			params.add(new TipoPolimorfico());
-		}
-		Tipo tipo = new TipoFuncao(params, new TipoPolimorfico());
-		// Mapeia a pr�pria fun��o no ambiente para permitir recurs�o.
-		ambiente.map(id, tipo);
+		// 1. Mapeia a própria função com genéricos (para recursão)
+		List<Tipo> paramsGen = new ArrayList<>(getAridade());
+		for (int i = 0; i < getAridade(); i++)
+			paramsGen.add(new TipoPolimorfico());
+		ambiente.map(id, new TipoFuncao(paramsGen, new TipoPolimorfico()));
 
+		// 2. Mapeia os argumentos
+		// Nota: O DefFuncao.checaTipo faz isso, mas delegar cegamente pode esconder
+		// erros.
 		boolean result = funcao.checaTipo(ambiente);
+
 		ambiente.restaura();
 		return result;
 	}
 
-	/**
-	 * Retorna os tipos possiveis da fun��o declarada.
-	 * 
-	 * @param amb
-	 *            o ambiente que contem o mapeamento entre identificadores e
-	 *            tipos.
-	 * @return os tipos possiveis desta declara��o.
-	 * @exception VariavelNaoDeclaradaException
-	 *                se houver uma vari&aacute;vel n&atilde;o declarada no
-	 *                ambiente.
-	 * @exception VariavelJaDeclaradaException
-	 *                se houver uma mesma vari&aacute;vel declarada duas vezes
-	 *                no mesmo bloco do ambiente.
-	 * @precondition this.checaTipo();
-	 */
+	// --- CORREÇÃO 2: O método CRUCIAL ---
+	// Este método precisa retornar o tipo CONCRETO (ex: int -> bool), não genérico.
 	public Tipo getTipo(AmbienteCompilacao amb)
 			throws VariavelNaoDeclaradaException, VariavelJaDeclaradaException {
+
 		amb.incrementa();
 
-		List<Tipo> params = new ArrayList<Tipo>(getAridade());
+		// 1. Criamos tipos polimórficos para os argumentos
+		List<Tipo> tiposArgumentos = new ArrayList<>();
 		for (int i = 0; i < getAridade(); i++) {
-			params.add(new TipoPolimorfico());
+			tiposArgumentos.add(new TipoPolimorfico());
 		}
-		Tipo tipo = new TipoFuncao(params, new TipoPolimorfico());
-		amb.map(id, tipo);
 
-		Tipo result = funcao.getTipo(amb);
+		// 2. Mapeia a função (recursão)
+		Tipo tipoFuncaoRecursao = new TipoFuncao(new ArrayList<>(tiposArgumentos), new TipoPolimorfico());
+		amb.map(id, tipoFuncaoRecursao);
+
+		// 3. Mapeia os argumentos no ambiente
+		// IMPORTANTE: Guardamos a referência da lista 'tiposArgumentos'
+		List<Id> idsArgs = getListaId();
+		for (int i = 0; i < getAridade(); i++) {
+			amb.map(idsArgs.get(i), tiposArgumentos.get(i));
+		}
+
+		// 4. Requisita o tipo da expressão do corpo (Isso força a inferência!)
+		// Ao rodar isso, o compilador vai atualizar os objetos dentro de
+		// 'tiposArgumentos'
+		// ex: O TipoPolimorfico que era vazio vira um TipoInteiro (devido a n < 2)
+		Tipo tipoRetorno = funcao.getExp().getTipo(amb);
+
+		// 5. DEBUG: Isso vai te mostrar no console o que ele descobriu
+		// System.out.println("DEBUG DecFuncao: Args=" + tiposArgumentos + " Ret=" +
+		// tipoRetorno);
+
+		// 6. Constrói o tipo da função usando os argumentos AGORA ATUALIZADOS
+		TipoFuncao tipoFinal = new TipoFuncao(tiposArgumentos, tipoRetorno);
+
 		amb.restaura();
-		return result;
+		return tipoFinal;
+	}
+
+	// --- MÉTODOS DE ELABORAÇÃO/INCLUSÃO (Mantidos simples) ---
+
+	public void elabora(AmbienteCompilacao amb, AmbienteCompilacao aux) throws VariavelJaDeclaradaException {
+		// Cria versão genérica inicial
+		List<Tipo> params = new ArrayList<>();
+		for (int i = 0; i < getAridade(); i++)
+			params.add(new TipoPolimorfico());
+		aux.map(getId(), new TipoFuncao(params, new TipoPolimorfico()));
+	}
+
+	public void incluir(AmbienteCompilacao amb, AmbienteCompilacao aux) throws VariavelJaDeclaradaException {
+		// Usa o getTipo(amb) que acabamos de corrigir para pegar a versão concreta
+		try {
+			Tipo tipoConcreto = this.getTipo(amb);
+			amb.map(getId(), tipoConcreto);
+		} catch (VariavelNaoDeclaradaException e) {
+			e.printStackTrace();
+		}
+	}
+
+	// Métodos de execução (sem alteração de lógica, apenas delegate)
+	public void elabora(AmbienteExecucaoFuncional amb, AmbienteExecucaoFuncional aux)
+			throws VariavelJaDeclaradaException {
+		aux.mapFuncao(getId(), getFuncao());
+	}
+
+	public void incluir(AmbienteExecucaoFuncional amb, AmbienteExecucaoFuncional aux)
+			throws VariavelJaDeclaradaException {
+		amb.mapFuncao(getId(), aux.getFuncao(getId()));
 	}
 
 	public DecFuncao clone() {
 		DefFuncao aux = this.funcao.clone();
 		return new DecFuncao(this.id.clone(), aux.getListaId(), aux.getExp());
 	}
-
-	public void elabora(AmbienteCompilacao amb, AmbienteCompilacao aux) throws VariavelJaDeclaradaException {
-		aux.map(getId(), getTipo(amb));
-	}
-
-	public void incluir(AmbienteCompilacao amb, AmbienteCompilacao aux) throws VariavelJaDeclaradaException {
-		amb.map(getId(), aux.get(getId()));
-	}
-
-	public void elabora(AmbienteExecucaoFuncional amb, AmbienteExecucaoFuncional aux) throws VariavelJaDeclaradaException {
-		aux.mapFuncao(getId(), getFuncao());
-	}
-
-	public void incluir(AmbienteExecucaoFuncional amb, AmbienteExecucaoFuncional aux) throws VariavelJaDeclaradaException {
-		amb.mapFuncao(getId(), aux.getFuncao(getId()));
-	}
-
 }

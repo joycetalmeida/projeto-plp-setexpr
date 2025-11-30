@@ -744,11 +744,11 @@ public class Func1Parser implements Func1ParserConstants {
     label_6:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case IN:
       case UNION:
       case INTER:
       case DIFF:
       case SUBSET:
+      case IS_IN:
         ;
         break;
       default:
@@ -771,8 +771,8 @@ public class Func1Parser implements Func1ParserConstants {
         param2 = PExpMultiplicativa();
         retorno = new ExpDiferenca(retorno, param2);
         break;
-      case IN:
-        jj_consume_token(IN);
+      case IS_IN:
+        jj_consume_token(IS_IN);
         param2 = PExpMultiplicativa();
         retorno = new ExpIn(retorno, param2);
         break;
@@ -1692,7 +1692,7 @@ public class Func1Parser implements Func1ParserConstants {
   }
 
   private boolean jj_3R_75() {
-    if (jj_scan_token(IN)) return true;
+    if (jj_scan_token(IS_IN)) return true;
     if (jj_3R_60()) return true;
     return false;
   }
@@ -1768,13 +1768,13 @@ public class Func1Parser implements Func1ParserConstants {
       jj_la1_init_2();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x6000,0x80006000,0x80006000,0x0,0xf404f800,0x0,0xf404f800,0x0,0x210000,0x210000,0x80006000,0x8000000,0x0,0x0,0x0,0x0,0x400,0x400,0x3c20000,0x3c20000,0x0,0x0,0x200,};
+      jj_la1_0 = new int[] {0x6000,0x6000,0x6000,0x0,0xe404f800,0x0,0xe404f800,0x0,0x210000,0x210000,0x6000,0x8000000,0x0,0x0,0x0,0x0,0x400,0x400,0x13c00000,0x13c00000,0x0,0x0,0x200,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x0,0x8,0x298,0x400,0x80000698,0x4000,0x80000298,0x10,0x0,0x80,0x298,0x0,0x4800000,0x4800000,0x3060000,0x3060000,0xe0000000,0xe0000000,0x0,0x0,0x0,0x0,0x0,};
+      jj_la1_1 = new int[] {0x0,0x11,0x531,0x800,0xd31,0x8000,0x531,0x20,0x0,0x100,0x531,0x0,0x9000000,0x9000000,0x60c0000,0x60c0000,0xc0000000,0xc0000000,0x0,0x0,0x0,0x0,0x0,};
    }
    private static void jj_la1_init_2() {
-      jj_la1_2 = new int[] {0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x23,0x23,0x0,};
+      jj_la1_2 = new int[] {0x0,0x0,0x0,0x0,0x1,0x0,0x1,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x1,0x1,0x0,0x0,0x46,0x46,0x0,};
    }
   final private JJCalls[] jj_2_rtns = new JJCalls[14];
   private boolean jj_rescan = false;
@@ -1963,7 +1963,7 @@ public class Func1Parser implements Func1ParserConstants {
   /** Generate ParseException. */
   public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[70];
+    boolean[] la1tokens = new boolean[71];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
@@ -1983,7 +1983,7 @@ public class Func1Parser implements Func1ParserConstants {
         }
       }
     }
-    for (int i = 0; i < 70; i++) {
+    for (int i = 0; i < 71; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;
