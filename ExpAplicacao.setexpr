@@ -1,0 +1,163 @@
+# Módulo de Aplicação de Funções
+# Extensão da LF1 - Chamadas de Função
+# Arquivo: ExpAplicacao.setexpr
+
+# --- Aplicação Simples ---
+
+# Exemplo 1: Função identidade
+(fn x => x)(42)
+# Resultado: 42
+
+# Exemplo 2: Função que dobra
+(fn x => x * 2)(5)
+# Resultado: 10
+
+# Exemplo 3: Função que soma 1
+(fn x => x + 1)(9)
+# Resultado: 10
+
+# --- Aplicação Parcial (Currying) ---
+
+# Exemplo 4: Currying manual
+let add = fn x => fn y => x + y in
+let add5 = add(5) in
+add5(10)
+# Resultado: 15
+
+# Exemplo 5: Multiplicação curried
+let mul = fn x => fn y => x * y in
+let times10 = mul(10) in
+times10(7)
+# Resultado: 70
+
+# Exemplo 6: Três argumentos
+let sum3 = fn a => fn b => fn c => a + b + c in
+sum3(1)(2)(3)
+# Resultado: 6
+
+# --- Aplicação com Conjuntos ---
+
+# Exemplo 7: Função retorna conjunto
+let makeSet = fn x => {x, x + 1, x + 2} in
+makeSet(5)
+# Resultado: {5, 6, 7}
+
+# Exemplo 8: Função recebe conjunto
+let temElemento = fn conj => 3 in conj in
+temElemento({1, 2, 3, 4})
+# Resultado: true
+
+# Exemplo 9: União parametrizada
+let unir = fn a => fn b => a union b in
+unir({1, 2})({3, 4})
+# Resultado: {1, 2, 3, 4}
+
+# --- Aplicação Imediata (IIFE - Immediately Invoked Function Expression) ---
+
+# Exemplo 10: IIFE simples
+(fn x => x * x)(5)
+# Resultado: 25
+
+# Exemplo 11: IIFE com closure
+(fn x => 
+  let y = 10 in
+  x + y
+)(5)
+# Resultado: 15
+
+# Exemplo 12: IIFE retorna função
+(fn x => fn y => x + y)(5)(3)
+# Resultado: 8
+
+# --- Aplicação com Booleanos ---
+
+# Exemplo 13: Predicado
+let isPositive = fn x => x > 0 in
+isPositive(5)
+# Resultado: true
+
+# Exemplo 14: Função lógica
+let and = fn a => fn b => a and b in
+and(true)(false)
+# Resultado: false
+
+# Exemplo 15: Negação aplicada
+(fn b => not b)(true)
+# Resultado: false
+
+# --- Composição de Aplicações ---
+
+# Exemplo 16: Aplicações aninhadas
+let inc = fn x => x + 1 in
+let double = fn x => x * 2 in
+double(inc(5))
+# Resultado: 12
+
+# Exemplo 17: Pipeline de funções
+let f = fn x => x + 1 in
+let g = fn x => x * 2 in
+let h = fn x => x - 3 in
+h(g(f(5)))
+# Resultado: 9
+
+# Exemplo 18: Aplicação com conjunto resultado
+let mapDouble = fn x => {x * 2} in
+mapDouble(5)
+# Resultado: {10}
+
+# --- Funções de Alta Ordem ---
+
+# Exemplo 19: Função que recebe função
+let apply = fn f => fn x => f(x) in
+let square = fn x => x * x in
+apply(square)(4)
+# Resultado: 16
+
+# Exemplo 20: Retorna função baseada em condição
+let makeFunction = fn useDouble =>
+  let double = fn x => x * 2 in
+  let triple = fn x => x * 3 in
+  double
+in
+let f = makeFunction(true) in
+f(5)
+# Resultado: 10
+
+# --- Aplicação Recursiva (conceitual) ---
+
+# Exemplo 21: Factorial (simulado com composição)
+# Nota: LF1 pura não tem recursão direta, 
+# mas pode ser simulada com combinadores Y
+
+# Exemplo 22: Soma acumulada
+let somaAte = fn n =>
+  let aux = fn i => fn acc =>
+    i
+  in aux(n)(0)
+in
+somaAte(5)
+# Resultado: 5 (simplificado)
+
+# --- Aplicação com Múltiplos Tipos ---
+
+# Exemplo 23: Polimorfismo
+let first = fn x => fn y => x in
+first(5)(true)
+# Resultado: 5
+
+# Exemplo 24: Função retorna tipos diferentes
+let makeValue = fn useInt =>
+  42
+in
+makeValue(true)
+# Resultado: 42
+
+# Exemplo 25: Pipeline complexo
+let processo = 
+  let f1 = fn x => x + 1 in
+  let f2 = fn x => x * 2 in
+  let f3 = fn x => {x, x + 1, x + 2} in
+  fn valor => f3(f2(f1(valor)))
+in
+processo(5)
+# Resultado: {12, 13, 14}

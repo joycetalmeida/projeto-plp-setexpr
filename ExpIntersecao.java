@@ -1,11 +1,11 @@
 import java.util.Set;
 import java.util.HashSet;
 
-public class ExpUniao implements Expressao {
+public class ExpIntersecao implements Expressao {
 
     private Expressao esq, dir;
 
-    public ExpUniao(Expressao esq, Expressao dir) {
+    public ExpIntersecao(Expressao esq, Expressao dir) {
         this.esq = esq;
         this.dir = dir;
     }
@@ -19,11 +19,11 @@ public class ExpUniao implements Expressao {
             Set<Valor> conjuntoDir = ((ValorConjunto) valDir).getValor();
 
             Set<Valor> resultado = new HashSet<>(conjuntoEsq);
-            resultado.addAll(conjuntoDir);
+            resultado.retainAll(conjuntoDir);
 
             return new ValorConjunto(resultado);
         } else {
-            throw new RuntimeException("Operacao 'union' exige dois conjuntos como operandos.");
+            throw new RuntimeException("Operacao 'inter' exige dois conjuntos como operandos.");
         }
     }
 

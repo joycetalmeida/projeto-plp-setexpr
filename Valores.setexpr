@@ -1,0 +1,144 @@
+# Módulo de Valores Primitivos
+# Extensão da LF1 - Inteiros, Booleanos e Conjuntos
+# Arquivo: Valores.setexpr
+
+# --- INTEIROS ---
+
+# Literais inteiros
+42
+-17
+0
+1000
+-999
+
+# Exemplo 1: Inteiros positivos
+let positivo = 42 in
+positivo
+# Resultado: 42
+
+# Exemplo 2: Inteiros negativos
+let negativo = -17 in
+negativo
+# Resultado: -17
+
+# Exemplo 3: Zero
+let zero = 0 in
+zero
+# Resultado: 0
+
+# --- BOOLEANOS ---
+
+# Literais booleanos
+true
+false
+
+# Exemplo 4: Verdadeiro
+let verdade = true in
+verdade
+# Resultado: true
+
+# Exemplo 5: Falso
+let mentira = false in
+mentira
+# Resultado: false
+
+# Exemplo 6: Operações lógicas
+let a = true in
+let b = false in
+a and b
+# Resultado: false
+
+# Exemplo 7: Negação
+let negacao = not true in
+negacao
+# Resultado: false
+
+# Exemplo 8: Disjunção
+true or false
+# Resultado: true
+
+# --- CONJUNTOS ---
+
+# Exemplo 9: Conjunto vazio
+{}
+# Resultado: {}
+
+# Exemplo 10: Conjunto de inteiros
+{1, 2, 3, 4, 5}
+# Resultado: {1, 2, 3, 4, 5}
+
+# Exemplo 11: Conjunto de booleanos
+{true, false}
+# Resultado: {false, true}
+
+# Exemplo 12: Conjunto misto (polimórfico)
+{1, true, 42}
+# Resultado: {1, 42, true}
+
+# Exemplo 13: Conjunto com duplicatas (eliminadas)
+{1, 2, 2, 3, 3, 3}
+# Resultado: {1, 2, 3}
+
+# Exemplo 14: Conjunto único elemento
+{42}
+# Resultado: {42}
+
+# --- COMBINAÇÕES ---
+
+# Exemplo 15: Conjunto de negativos
+{-1, -2, -3}
+# Resultado: {-3, -2, -1}
+
+# Exemplo 16: Conjunto grande
+{10, 20, 30, 40, 50, 60, 70, 80, 90, 100}
+# Resultado: {10, 20, 30, 40, 50, 60, 70, 80, 90, 100}
+
+# Exemplo 17: Let com valores
+let num = 42 in
+let bool = true in
+let conj = {1, 2, 3} in
+conj
+# Resultado: {1, 2, 3}
+
+# --- CONJUNTOS ANINHADOS (se suportado) ---
+
+# Exemplo 18: Conjunto de conjuntos
+{{1, 2}, {3, 4}}
+# Resultado: {{1, 2}, {3, 4}}
+
+# Exemplo 19: Aninhamento profundo
+{{{1}}}
+# Resultado: {{{1}}}
+
+# Exemplo 20: Misto aninhado
+{{1, 2}, {true, false}}
+# Resultado: {{1, 2}, {false, true}}
+
+# --- VALORES EM CONTEXTO ---
+
+# Exemplo 21: Inteiro em função
+let getValue = fn x => 100 in
+getValue(0)
+# Resultado: 100
+
+# Exemplo 22: Booleano em função
+let isTrue = fn x => true in
+isTrue(42)
+# Resultado: true
+
+# Exemplo 23: Conjunto em função
+let getSet = fn x => {1, 2, 3} in
+getSet(0)
+# Resultado: {1, 2, 3}
+
+# Exemplo 24: Valor passado como argumento
+let identity = fn x => x in
+identity(42)
+# Resultado: 42
+
+# Exemplo 25: Múltiplos valores
+let three = 3 in
+let five = 5 in
+let eight = three + five in
+eight
+# Resultado: 8

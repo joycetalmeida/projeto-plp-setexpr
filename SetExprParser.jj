@@ -1,6 +1,6 @@
 options {
   STATIC = false;
-  LOOKAHEAD = 1;
+  LOOKAHEAD = 2;
 }
 
 PARSER_BEGIN(SetExprParser)
@@ -8,15 +8,17 @@ import java.util.*;
 
 public class SetExprParser {
   public static void main(String args[]) {
-    System.out.println("Analisador SetExpr no ar. Digite uma expressão:");
+    System.out.println("Analisador SetExpr (extensao LF1) no ar. Digite uma expressao:");
     SetExprParser parser = new SetExprParser(System.in);
     try {
       Expressao exp = parser.PExpressao();
       System.out.println("Sintaxe correta!");
-      Valor resultado = exp.avaliar(null); 
+      AmbienteExecucao amb = new AmbienteExecucaoMap();
+      Valor resultado = exp.avaliar(amb); 
       System.out.println("Resultado da avaliacao: " + resultado);
     } catch (Exception e) {
       System.out.println("Erro: " + e.getMessage());
+      e.printStackTrace();
     }
   }
 }
@@ -30,10 +32,50 @@ SKIP :
 TOKEN :
 {
   < INTEGER_LITERAL: (["0"-"9"])+ >
+| < TRUE: "true" >
+| < FALSE: "false" >
+| < UNION: "union" >
+| < INTER: "inter" >
+| < DIFF: "diff" >
+| < SUBSET: "subset" >
+| < SUPERSET: "superset" >
+| < PSUBSET: "psubset" >
+| < PSUPERSET: "psuperset" >
+| < DISJOINT: "disjoint" >
+| < CROSS: "cross" >
+| < FLATTEN: "flatten" >
+| < POWERSET: "powerset" >
+| < IN: "in" >
+| < FN: "fn" >
+| < LET: "let" >
+| < VAR: "var" >
+| < FUN: "fun" >
+| < IF: "if" >
+| < THEN: "then" >
+| < ELSE: "else" >
+| < EQ: "==" >
+| < NEQ: "!=" >
+| < LE: "<=" >
+| < GE: ">=" >
+| < LT: "<" >
+| < GT: ">" >
+| < ARROW: "=>" >
+| < EQUAL: "=" >
+| < PLUS: "+" >
+| < MINUS: "-" >
+| < STAR: "*" >
+| < SLASH: "/" >
+| < REM: "%" >
+| < DOTDOTDOT: "..." >
+| < DOTDOT: ".." >
+| < HASH: "#" >
 | < LBRACE: "{" >
 | < RBRACE: "}" >
+| < LPAREN: "(" >
+| < RPAREN: ")" >
 | < COMMA: "," >
-| < UNION: "union" >
+| < COLON: ":" >
+| < ID: ["a"-"z","A"-"Z"] (["a"-"z","A"-"Z","0"-"9","_"])* >
 }
 
 // --- Regras da Gramática ---
@@ -43,8 +85,46 @@ Expressao PExpressao() :
   Expressao retorno;
 }
 {
-  retorno = PExpUniao()
+  retorno = PExpIgualdade()
   { return retorno; }
+}
+
+Expressao PExpIgualdade() :
+{
+  Expressao prim, seg;
+}
+{
+  prim = PExpRelacional()
+  (
+    <EQ> seg = PExpRelacional()
+    { prim = new ExpIgualdade(prim, seg); }
+  |
+    <NEQ> seg = PExpRelacional()
+    { prim = new ExpDesigualdade(prim, seg); }
+  )*
+  { return prim; }
+}
+
+Expressao PExpRelacional() :
+{
+  Expressao prim, seg;
+}
+{
+  prim = PExpUniao()
+  (
+    <LT> seg = PExpUniao()
+    { prim = new ExpMenor(prim, seg); }
+  |
+    <GT> seg = PExpUniao()
+    { prim = new ExpMaior(prim, seg); }
+  |
+    <LE> seg = PExpUniao()
+    { prim = new ExpMenorIgual(prim, seg); }
+  |
+    <GE> seg = PExpUniao()
+    { prim = new ExpMaiorIgual(prim, seg); }
+  )*
+  { return prim; }
 }
 
 Expressao PExpUniao() :
@@ -52,12 +132,128 @@ Expressao PExpUniao() :
   Expressao prim, seg;
 }
 {
-  prim = PExpPrimaria()
+  prim = PExpAditiva()
   (
-    <UNION> seg = PExpPrimaria()
+    <UNION> seg = PExpAditiva()
     { prim = new ExpUniao(prim, seg); }
+  |
+    <INTER> seg = PExpAditiva()
+    { prim = new ExpIntersecao(prim, seg); }
+  |
+    <DIFF> seg = PExpAditiva()
+    { prim = new ExpDiferenca(prim, seg); }
+  |
+    <SUBSET> seg = PExpAditiva()
+    { prim = new ExpSubconjunto(prim, seg); }
+  |
+    <SUPERSET> seg = PExpAditiva()
+    { prim = new ExpSuperconjunto(prim, seg); }
+  |
+    <PSUBSET> seg = PExpAditiva()
+    { prim = new ExpSubconjuntoProprio(prim, seg); }
+  |
+    <PSUPERSET> seg = PExpAditiva()
+    { prim = new ExpSuperconjuntoProprio(prim, seg); }
+  |
+    <DISJOINT> seg = PExpAditiva()
+    { prim = new ExpDisjuntos(prim, seg); }
   )*
   { return prim; }
+}
+
+Expressao PExpAditiva() :
+{
+  Expressao prim, seg;
+}
+{
+  prim = PExpMultiplicativa()
+  (
+    <PLUS> seg = PExpMultiplicativa()
+    { prim = new ExpSoma(prim, seg); }
+  |
+    <MINUS> seg = PExpMultiplicativa()
+    { prim = new ExpSubtracao(prim, seg); }
+  )*
+  { return prim; }
+}
+
+Expressao PExpMultiplicativa() :
+{
+  Expressao prim, seg;
+}
+{
+  prim = PExpCross()
+  (
+    <STAR> seg = PExpCross()
+    { prim = new ExpMultiplicacao(prim, seg); }
+  |
+    <SLASH> seg = PExpCross()
+    { prim = new ExpDivisao(prim, seg); }
+  |
+    <REM> seg = PExpCross()
+    { prim = new ExpModulo(prim, seg); }
+  )*
+  { return prim; }
+}
+
+Expressao PExpCross() :
+{
+  Expressao prim, seg;
+}
+{
+  prim = PExpRange()
+  (
+    <CROSS> seg = PExpRange()
+    { prim = new ExpProdutoCartesiano(prim, seg); }
+  )*
+  { return prim; }
+}
+
+Expressao PExpRange() :
+{
+  Expressao prim, seg;
+}
+{
+  prim = PExpPertencimento()
+  (
+    <DOTDOTDOT> seg = PExpPertencimento()
+    { prim = new ExpRange(prim, seg); }
+  )*
+  { return prim; }
+}
+
+Expressao PExpPertencimento() :
+{
+  Expressao prim, seg;
+}
+{
+  prim = PExpUnaria()
+  (
+    <IN> seg = PExpUnaria()
+    { prim = new ExpPertencimento(prim, seg); }
+  )*
+  { return prim; }
+}
+
+Expressao PExpUnaria() :
+{
+  Expressao expr;
+}
+{
+  <HASH> expr = PExpUnaria()
+  { return new ExpCardinalidade(expr); }
+|
+  <FLATTEN> expr = PExpUnaria()
+  { return new ExpFlatten(expr); }
+|
+  <POWERSET> expr = PExpUnaria()
+  { return new ExpPowerset(expr); }
+|
+  <MINUS> expr = PExpUnaria()
+  { return new ExpNegacao(expr); }
+|
+  expr = PExpPrimaria()
+  { return expr; }
 }
 
 Expressao PExpPrimaria() :
@@ -66,10 +262,106 @@ Expressao PExpPrimaria() :
 }
 {
   (
-    retorno = PValor()
+    retorno = PExpIf()
+    | retorno = PExpLet()
+    | retorno = PExpFuncao()
+    | retorno = PValor()
     | retorno = PExpConjunto()
+    | retorno = PExpId()
+    | <LPAREN> retorno = PExpressao() <RPAREN>
   )
+  (
+    retorno = PExpAplicacao(retorno)
+  )?
   { return retorno; }
+}
+
+Expressao PExpIf() :
+{
+  Expressao condicao, entao, senao;
+}
+{
+  <IF> condicao = PExpressao() <THEN> entao = PExpressao() <ELSE> senao = PExpressao()
+  { return new ExpIf(condicao, entao, senao); }
+}
+
+Expressao PExpFuncao() :
+{
+  Token param;
+  Expressao corpo;
+}
+{
+  <FN> param = <ID> <ARROW> corpo = PExpressao()
+  { return new ExpFuncao(param.image, corpo); }
+}
+
+Expressao PExpLet() :
+{
+  Token id;
+  Expressao valor, corpo;
+  List<Token> params;
+}
+{
+  <LET> corpo = PExpLetBody()
+  { return corpo; }
+}
+
+Expressao PExpLetBody() :
+{
+  Token id;
+  Expressao valor, corpo;
+  List<Token> params;
+}
+{
+  (
+    <VAR> id = <ID> <EQUAL> valor = PExpUnaria() 
+    (
+      <COMMA> corpo = PExpLetBody()
+      { return new ExpLetComposta(id.image, valor, corpo); }
+    |
+      <IN> corpo = PExpressao()
+      { return new ExpLet(id.image, valor, corpo); }
+    )
+  |
+    <FUN> id = <ID> params = PListaParams() <EQUAL> valor = PExpRange()
+    (
+      <COMMA> corpo = PExpLetBody()
+      { return new ExpLetFuncaoComposta(id.image, params, valor, corpo); }
+    |
+      <IN> corpo = PExpressao()
+      { return new ExpLetFuncao(id.image, params, valor, corpo); }
+    )
+  )
+}
+
+List<Token> PListaParams() :
+{
+  List<Token> params = new ArrayList<Token>();
+  Token param;
+}
+{
+  (
+    param = <ID> { params.add(param); }
+  )+
+  { return params; }
+}
+
+Expressao PExpId() :
+{
+  Token id;
+}
+{
+  id = <ID>
+  { return new ExpId(id.image); }
+}
+
+Expressao PExpAplicacao(Expressao funcao) :
+{
+  Expressao arg;
+}
+{
+  <LPAREN> arg = PExpressao() <RPAREN>
+  { return new ExpAplicacao(funcao, arg); }
 }
 
 Expressao PValor() :
@@ -79,6 +371,12 @@ Expressao PValor() :
 {
   t = <INTEGER_LITERAL>
   { return new ValorInteiro(Integer.parseInt(t.image)); }
+|
+  <TRUE>
+  { return new ValorBooleano(true); }
+|
+  <FALSE>
+  { return new ValorBooleano(false); }
 }
 
 Expressao PExpConjunto() :

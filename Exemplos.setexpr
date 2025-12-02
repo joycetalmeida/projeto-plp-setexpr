@@ -1,0 +1,192 @@
+# Exemplos Integrados - SetExpr (Extensão LF1)
+# Combinando todas as funcionalidades
+# Arquivo: Exemplos.setexpr
+
+# --- EXEMPLO 1: Operações Básicas de Conjunto ---
+let a = {1, 2, 3} in
+let b = {3, 4, 5} in
+a union b
+# Resultado: {1, 2, 3, 4, 5}
+
+# --- EXEMPLO 2: Função com Conjuntos ---
+let duplicarElementos = fn conj =>
+  conj union conj
+in
+duplicarElementos({1, 2, 3})
+# Resultado: {1, 2, 3}
+
+# --- EXEMPLO 3: Pertencimento ---
+let numeros = {1, 2, 3, 4, 5} in
+let buscar = fn x => x in numeros in
+buscar(3)
+# Resultado: true
+
+# --- EXEMPLO 4: Operações Aninhadas ---
+let c1 = {1, 2, 3, 4} in
+let c2 = {3, 4, 5, 6} in
+let c3 = {5, 6, 7, 8} in
+(c1 union c2) inter c3
+# Resultado: {5, 6}
+
+# --- EXEMPLO 5: Closure com Conjuntos ---
+let base = {1, 2, 3} in
+let adicionar = fn elem =>
+  base union {elem}
+in
+adicionar(4)
+# Resultado: {1, 2, 3, 4}
+
+# --- EXEMPLO 6: Subconjunto ---
+let pequeno = {1, 2} in
+let grande = {1, 2, 3, 4, 5} in
+pequeno subset grande
+# Resultado: true
+
+# --- EXEMPLO 7: Diferença de Conjuntos ---
+let todos = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10} in
+let impares = {1, 3, 5, 7, 9} in
+todos diff impares
+# Resultado: {2, 4, 6, 8, 10}
+
+# --- EXEMPLO 8: Composição de Funções com Conjuntos ---
+let makeSet = fn x => {x} in
+let duplicateSet = fn s => s union s in
+let compose = fn f => fn g => fn x => f(g(x)) in
+let pipeline = compose(duplicateSet)(makeSet) in
+pipeline(5)
+# Resultado: {5}
+
+# --- EXEMPLO 9: Múltiplas Operações ---
+let numeros = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10} in
+let pares = {2, 4, 6, 8, 10} in
+let multiplos3 = {3, 6, 9} in
+(numeros diff pares) union multiplos3
+# Resultado: {1, 3, 5, 6, 7, 9}
+
+# --- EXEMPLO 10: Booleanos com Conjuntos ---
+let conjunto = {1, 2, 3} in
+let vazio = {} in
+let existeElemento = 2 in conjunto in
+let conjuntoVazio = 1 in vazio in
+existeElemento and not conjuntoVazio
+# Resultado: true
+
+# --- EXEMPLO 11: Factory de Conjuntos ---
+let makeRange = fn start => fn end =>
+  {start, start + 1, end}
+in
+makeRange(1)(5)
+# Resultado: {1, 2, 5}
+
+# --- EXEMPLO 12: Interseção Múltipla ---
+let s1 = {1, 2, 3, 4, 5} in
+let s2 = {2, 3, 4, 5, 6} in
+let s3 = {3, 4, 5, 6, 7} in
+(s1 inter s2) inter s3
+# Resultado: {3, 4, 5}
+
+# --- EXEMPLO 13: Funções de Alta Ordem com Conjuntos ---
+let apply = fn f => fn x => f(x) in
+let unionWith5 = fn s => s union {5} in
+apply(unionWith5)({1, 2, 3})
+# Resultado: {1, 2, 3, 5}
+
+# --- EXEMPLO 14: Pipeline Complexo ---
+let inicial = {10, 20, 30} in
+let passo1 = inicial union {40, 50} in
+let passo2 = passo1 diff {20} in
+let passo3 = passo2 inter {10, 30, 40, 50, 60} in
+passo3
+# Resultado: {10, 30, 40, 50}
+
+# --- EXEMPLO 15: Let Aninhado com Conjuntos ---
+let resultado =
+  let a = {1, 2} in
+  let b = {2, 3} in
+  let c = {3, 4} in
+  let ab = a union b in
+  let bc = b union c in
+  ab inter bc
+in
+resultado
+# Resultado: {2, 3}
+
+# --- EXEMPLO 16: Conjuntos Booleanos ---
+let verdades = {true} in
+let mentiras = {false} in
+let todos = verdades union mentiras in
+true in todos
+# Resultado: true
+
+# --- EXEMPLO 17: Predicados sobre Conjuntos ---
+let contemTres = fn conj => 3 in conj in
+let contemCinco = fn conj => 5 in conj in
+let nums = {1, 2, 3, 4} in
+contemTres(nums) and not contemCinco(nums)
+# Resultado: true
+
+# --- EXEMPLO 18: Simetric Difference (Simulado) ---
+let symDiff = fn a => fn b =>
+  (a diff b) union (b diff a)
+in
+symDiff({1, 2, 3})({3, 4, 5})
+# Resultado: {1, 2, 4, 5}
+
+# --- EXEMPLO 19: Verificação de Subconjuntos Múltiplos ---
+let s1 = {1, 2} in
+let s2 = {1, 2, 3} in
+let s3 = {1, 2, 3, 4, 5} in
+(s1 subset s2) and (s2 subset s3)
+# Resultado: true
+
+# --- EXEMPLO 20: Conjunto Potência Parcial ---
+let s = {1, 2} in
+let p = {
+  {},
+  {1},
+  {2},
+  {1, 2}
+} in
+{} subset s
+# Resultado: true
+
+# --- EXEMPLO 21: Closure Complexo ---
+let criarOperador = fn op =>
+  let conjunto = {1, 2, 3} in
+  fn outro => conjunto union outro
+in
+let operador = criarOperador(42) in
+operador({4, 5})
+# Resultado: {1, 2, 3, 4, 5}
+
+# --- EXEMPLO 22: Identidade em Conjunto ---
+let id = fn x => x in
+id({10, 20, 30})
+# Resultado: {10, 20, 30}
+
+# --- EXEMPLO 23: Constante de Conjunto ---
+let sempre = fn x => {100} in
+sempre(42)
+# Resultado: {100}
+
+# --- EXEMPLO 24: Múltiplas Uniões ---
+let c1 = {1} in
+let c2 = {2} in
+let c3 = {3} in
+let c4 = {4} in
+((c1 union c2) union c3) union c4
+# Resultado: {1, 2, 3, 4}
+
+# --- EXEMPLO 25: Expressão Complexa Final ---
+let universo = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10} in
+let filtrar = fn conjunto =>
+  let pequenos = {1, 2, 3, 4, 5} in
+  conjunto inter pequenos
+in
+let adicionar = fn conjunto =>
+  conjunto union {11, 12}
+in
+let compose = fn f => fn g => fn x => f(g(x)) in
+let pipeline = compose(adicionar)(filtrar) in
+pipeline(universo)
+# Resultado: {1, 2, 3, 4, 5, 11, 12}
