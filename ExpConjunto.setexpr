@@ -1,0 +1,64 @@
+# Módulo de Operações de Conjunto
+# Extensão da LF1 com teoria de conjuntos
+# Arquivo: ExpConjunto.setexpr
+
+# --- Funções Auxiliares para Conjuntos ---
+
+# Verifica se um elemento está em um conjunto
+let pertence = fn elem => fn conjunto =>
+  elem in conjunto
+in
+
+# Cria a união de dois conjuntos
+let uniao = fn a => fn b =>
+  a union b
+in
+
+# Cria a interseção de dois conjuntos
+let intersecao = fn a => fn b =>
+  a inter b
+in
+
+# Cria a diferença entre dois conjuntos
+let diferenca = fn a => fn b =>
+  a diff b
+in
+
+# Verifica se um conjunto é subconjunto de outro
+let subconjunto = fn a => fn b =>
+  a subset b
+in
+
+# Retorna o conjunto vazio
+let conjuntoVazio = {} in
+
+# --- Exemplos de Uso ---
+
+# Exemplo 1: União de conjuntos
+let c1 = {1, 2, 3} in
+let c2 = {3, 4, 5} in
+uniao(c1)(c2)
+# Resultado: {1, 2, 3, 4, 5}
+
+# Exemplo 2: Interseção
+let c1 = {1, 2, 3, 4} in
+let c2 = {3, 4, 5} in
+intersecao(c1)(c2)
+# Resultado: {3, 4}
+
+# Exemplo 3: Pertencimento
+let conjunto = {1, 2, 3, 4, 5} in
+pertence(3)(conjunto)
+# Resultado: true
+
+# Exemplo 4: Subconjunto
+let pequeno = {1, 2} in
+let grande = {1, 2, 3, 4, 5} in
+subconjunto(pequeno)(grande)
+# Resultado: true
+
+# Exemplo 5: Diferença
+let todos = {1, 2, 3, 4, 5} in
+let remover = {2, 4} in
+diferenca(todos)(remover)
+# Resultado: {1, 3, 5}

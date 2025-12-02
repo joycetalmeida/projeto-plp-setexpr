@@ -1,0 +1,113 @@
+# Módulo de Let Bindings e Escopo Léxico
+# Extensão da LF1 - Vinculação de Variáveis
+# Arquivo: ExpLet.setexpr
+
+# --- Exemplos de Let Simples ---
+
+# Exemplo 1: Let básico
+let x = 10 in x + 5
+# Resultado: 15
+
+# Exemplo 2: Let aninhado
+let x = 5 in
+  let y = 10 in
+    x + y
+# Resultado: 15
+
+# Exemplo 3: Shadowing de variáveis
+let x = 5 in
+  let x = 10 in
+    x
+# Resultado: 10 (x interno sobrescreve x externo)
+
+# --- Let com Funções ---
+
+# Exemplo 4: Definindo função com let
+let square = fn x => x * x in
+square(7)
+# Resultado: 49
+
+# Exemplo 5: Múltiplas funções
+let add = fn x => fn y => x + y in
+let mul = fn x => fn y => x * y in
+add(mul(2)(3))(5)
+# Resultado: 11
+
+# --- Let com Conjuntos ---
+
+# Exemplo 6: Conjuntos com let
+let numeros = {1, 2, 3, 4, 5} in
+let pares = {2, 4} in
+numeros diff pares
+# Resultado: {1, 3, 5}
+
+# Exemplo 7: Operações complexas
+let a = {1, 2, 3} in
+let b = {2, 3, 4} in
+let c = {3, 4, 5} in
+(a union b) inter c
+# Resultado: {3, 4}
+
+# --- Closures (Captura de Ambiente) ---
+
+# Exemplo 8: Closure simples
+let x = 10 in
+let f = fn y => x + y in
+f(5)
+# Resultado: 15
+
+# Exemplo 9: Fábrica de funções
+let makeAdder = fn n =>
+  fn x => x + n
+in
+let add5 = makeAdder(5) in
+let add10 = makeAdder(10) in
+add5(3)
+# Resultado: 8
+
+# Exemplo 10: Contador (closure com estado capturado)
+let base = 100 in
+let incrementar = fn x => base + x in
+incrementar(42)
+# Resultado: 142
+
+# --- Let com Booleanos ---
+
+# Exemplo 11: Expressões condicionais
+let idade = 18 in
+let maiorIdade = idade >= 18 in
+maiorIdade
+# Resultado: true
+
+# Exemplo 12: Lógica complexa
+let a = true in
+let b = false in
+let c = true in
+(a or b) and c
+# Resultado: true
+
+# --- Escopo e Visibilidade ---
+
+# Exemplo 13: Variável não vaza do escopo
+let x = (let y = 5 in y + 10) in
+x
+# Resultado: 15
+# Nota: 'y' não está disponível aqui
+
+# Exemplo 14: Let em expressões
+let resultado = 
+  let temp1 = 5 * 5 in
+  let temp2 = 3 * 3 in
+  temp1 + temp2
+in
+resultado
+# Resultado: 34
+
+# --- Combinação Let + Funções + Conjuntos ---
+
+# Exemplo 15: Pipeline complexo
+let numeros = {1, 2, 3, 4, 5} in
+let double = fn x => x * 2 in
+let dobrados = {double(1), double(2), double(3), double(4), double(5)} in
+dobrados
+# Resultado: {2, 4, 6, 8, 10}

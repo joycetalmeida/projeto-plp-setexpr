@@ -1,11 +1,10 @@
 import java.util.Set;
-import java.util.HashSet;
 
-public class ExpUniao implements Expressao {
+public class ExpSubconjuntoProprio implements Expressao {
 
     private Expressao esq, dir;
 
-    public ExpUniao(Expressao esq, Expressao dir) {
+    public ExpSubconjuntoProprio(Expressao esq, Expressao dir) {
         this.esq = esq;
         this.dir = dir;
     }
@@ -18,12 +17,12 @@ public class ExpUniao implements Expressao {
             Set<Valor> conjuntoEsq = ((ValorConjunto) valEsq).getValor();
             Set<Valor> conjuntoDir = ((ValorConjunto) valDir).getValor();
 
-            Set<Valor> resultado = new HashSet<>(conjuntoEsq);
-            resultado.addAll(conjuntoDir);
-
-            return new ValorConjunto(resultado);
+            // A psubset B significa A ⊂ B (subconjunto próprio: A ⊆ B e A ≠ B)
+            boolean eSubconjunto = conjuntoDir.containsAll(conjuntoEsq);
+            boolean naoIgual = !conjuntoEsq.equals(conjuntoDir);
+            return new ValorBooleano(eSubconjunto && naoIgual);
         } else {
-            throw new RuntimeException("Operacao 'union' exige dois conjuntos como operandos.");
+            throw new RuntimeException("Operacao 'psubset' exige dois conjuntos como operandos.");
         }
     }
 
@@ -32,6 +31,6 @@ public class ExpUniao implements Expressao {
     }
 
     public Tipo getTipo(AmbienteCompilacao amb) {
-        return TipoConjunto.getInstancia();
+        return TipoBooleano.getInstancia();
     }
 }

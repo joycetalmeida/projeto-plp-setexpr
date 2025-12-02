@@ -28,6 +28,21 @@ public class ValorConjunto implements Valor {
     }
     
     @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+        ValorConjunto other = (ValorConjunto) obj;
+        return valor.equals(other.valor);
+    }
+    
+    @Override
+    public int hashCode() {
+        return valor.hashCode();
+    }
+    
+    @Override
     public String toString() {
         return valor.toString();
     }

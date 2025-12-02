@@ -1,0 +1,95 @@
+# Módulo de Funções Lambda e Programação Funcional
+# Extensão da LF1 - Funções de Alta Ordem
+# Arquivo: ExpFuncao.setexpr
+
+# --- Funções Básicas ---
+
+# Identidade
+let identity = fn x => x in
+
+# Constante (retorna sempre o primeiro argumento)
+let const = fn x => fn y => x in
+
+# Composição de funções
+let compose = fn f => fn g => fn x => f(g(x)) in
+
+# Aplicação de função
+let apply = fn f => fn x => f(x) in
+
+# --- Funções Numéricas ---
+
+# Dobra um valor
+let double = fn x => x * 2 in
+
+# Incrementa em 1
+let inc = fn x => x + 1 in
+
+# Decrementa em 1
+let dec = fn x => x - 1 in
+
+# Eleva ao quadrado
+let square = fn x => x * x in
+
+# Soma dois números
+let add = fn x => fn y => x + y in
+
+# Subtrai dois números
+let sub = fn x => fn y => x - y in
+
+# Multiplica dois números
+let mul = fn x => fn y => x * y in
+
+# --- Funções Lógicas ---
+
+# Negação
+let negar = fn b => not b in
+
+# Conjunção (and)
+let e = fn a => fn b => a and b in
+
+# Disjunção (or)
+let ou = fn a => fn b => a or b in
+
+# --- Funções de Alta Ordem ---
+
+# Aplica uma função n vezes
+let aplicarN = fn f => fn n => fn x =>
+  let aux = fn i => fn acc =>
+    let continuar = i > 0 in
+    continuar
+  in aux(n)(x)
+in
+
+# Curry: transforma f(x,y) em f(x)(y)
+# (já é o padrão na LF1)
+
+# Uncurry: transforma f(x)(y) em f(x,y)
+# (não aplicável diretamente na LF1)
+
+# --- Exemplos de Uso ---
+
+# Exemplo 1: Composição
+let incrementaEDobra = compose(double)(inc) in
+incrementaEDobra(5)
+# Resultado: 12
+
+# Exemplo 2: Aplicação parcial
+let add10 = add(10) in
+add10(5)
+# Resultado: 15
+
+# Exemplo 3: Funções aninhadas
+let somaQuadrados = fn x => fn y =>
+  add(square(x))(square(y))
+in
+somaQuadrados(3)(4)
+# Resultado: 25
+
+# Exemplo 4: Identidade
+identity(42)
+# Resultado: 42
+
+# Exemplo 5: Constante
+let sempre5 = const(5) in
+sempre5(100)
+# Resultado: 5

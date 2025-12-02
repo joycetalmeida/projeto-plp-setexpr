@@ -1,11 +1,10 @@
 import java.util.Set;
-import java.util.HashSet;
 
-public class ExpUniao implements Expressao {
+public class ExpSuperconjunto implements Expressao {
 
     private Expressao esq, dir;
 
-    public ExpUniao(Expressao esq, Expressao dir) {
+    public ExpSuperconjunto(Expressao esq, Expressao dir) {
         this.esq = esq;
         this.dir = dir;
     }
@@ -18,12 +17,11 @@ public class ExpUniao implements Expressao {
             Set<Valor> conjuntoEsq = ((ValorConjunto) valEsq).getValor();
             Set<Valor> conjuntoDir = ((ValorConjunto) valDir).getValor();
 
-            Set<Valor> resultado = new HashSet<>(conjuntoEsq);
-            resultado.addAll(conjuntoDir);
-
-            return new ValorConjunto(resultado);
+            // A superset B significa A contém todos os elementos de B
+            boolean eSuperconjunto = conjuntoEsq.containsAll(conjuntoDir);
+            return new ValorBooleano(eSuperconjunto);
         } else {
-            throw new RuntimeException("Operacao 'union' exige dois conjuntos como operandos.");
+            throw new RuntimeException("Operacao 'superset' exige dois conjuntos como operandos.");
         }
     }
 
@@ -32,6 +30,6 @@ public class ExpUniao implements Expressao {
     }
 
     public Tipo getTipo(AmbienteCompilacao amb) {
-        return TipoConjunto.getInstancia();
+        return TipoBooleano.getInstancia();
     }
 }
