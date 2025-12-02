@@ -181,6 +181,7 @@ TOKEN : /* TOKENS DE SETEXPR */
 | < SUBSET: "subset" >
 | < NUMBER: "#" >
 | < RANGE: ".." >
+| < IS_IN: "isin" >
 | < POWERSET: "powerset" >
 | < D_UNION: "UNION" > // União Distribuída
 | < D_INTER: "INTER" > // Interseção Distribuída
@@ -569,7 +570,7 @@ Expressao PExpBinariaSet() :
       { retorno = new ExpIntersecao(retorno, param2); }
     | <DIFF> param2 = PExpMultiplicativa()
       { retorno = new ExpDiferenca(retorno, param2); }
-    | <IN> param2 = PExpMultiplicativa()
+    | <IS_IN> param2 = PExpMultiplicativa()
       { retorno = new ExpIn(retorno, param2); }
     | <SUBSET> param2 = PExpMultiplicativa()
       { retorno = new ExpSubset(retorno, param2); }
