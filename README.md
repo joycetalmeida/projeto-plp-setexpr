@@ -5,11 +5,11 @@
 **Equipe:** Joyce Almeida, Rafael Moura, Ricardo Azevedo  
 **Data:** Dezembro de 2025
 
-📊 **[Slides da Apresentação](https://docs.google.com/presentation/d/1vDxkcSzXv5n8ovFE0-ypeOXpedVMhpVY6QS7jWMnf0k/edit?slide=id.p12#slide=id.p12)**
+**[Slides da Apresentação](https://docs.google.com/presentation/d/1vDxkcSzXv5n8ovFE0-ypeOXpedVMhpVY6QS7jWMnf0k/edit?slide=id.p12#slide=id.p12)**
 
 ---
 
-## 📖 Índice
+## Índice
 
 1. [Introdução](#1-introdução)
 2. [Características](#2-características)
@@ -52,7 +52,7 @@ A escolha de conjuntos como extensão da LF1 fundamenta-se em:
 
 ### 2.1 Operações Principais
 
-✅ **16 Operações Implementadas:**
+**16 Operações Implementadas:**
 - 5 Básicas: `union`, `inter`, `diff`, `in`, `#`
 - 7 Relacionais: `subset`, `superset`, `psubset`, `psuperset`, `disjoint`, `==`, `!=`
 - 3 Distribuição: `cross`, `flatten`, `powerset`
@@ -60,7 +60,7 @@ A escolha de conjuntos como extensão da LF1 fundamenta-se em:
 
 ### 2.2 Paradigma Funcional
 
-✅ **Características Funcionais:**
+**Características Funcionais:**
 - Funções Lambda: `fn x => x union {10}`
 - Let Bindings: `let x = {1, 2, 3} in x union {4, 5}`
 - Closures: Captura de ambiente léxico
@@ -69,7 +69,7 @@ A escolha de conjuntos como extensão da LF1 fundamenta-se em:
 
 ### 2.3 Sistema de Tipos
 
-✅ **Tipos Suportados:**
+**Tipos Suportados:**
 - `TipoInteiro`: Números inteiros
 - `TipoBooleano`: true/false
 - `TipoConjunto`: Conjuntos de valores
@@ -509,7 +509,7 @@ O arquivo `demo-simples.ps1` executa 40+ demonstrações organizadas em 7 catego
 **Saída esperada:**
 ```
 ════════════════════════════════════════════════════════════
-     SetExpr - Demonstrações Acadêmicas
+     SetExpr - Demonstrações
 ════════════════════════════════════════════════════════════
 
 ═══ 1. OPERAÇÕES BÁSICAS ═══
@@ -522,63 +522,63 @@ Range Simples (1...5): [1, 2, 3, 4, 5]
 Cardinalidade de Range: 100
 ...
 
-✅ 16 operações de teoria de conjuntos
-✅ Operações básicas: union, inter, diff, in, #
-✅ Operações relacionais: subset, superset, psubset, disjoint, ==
-✅ Operações de distribuição: cross, flatten, powerset
-✅ Operações com range: ... (geração de sequências)
-✅ Paradigma funcional: lambda, let bindings, closures
-✅ Conjuntos aninhados com profundidade ilimitada
+16 operações de teoria de conjuntos
+Operações básicas: union, inter, diff, in, #
+Operações relacionais: subset, superset, psubset, disjoint, ==
+Operações de distribuição: cross, flatten, powerset
+Operações com range: ... (geração de sequências)
+Paradigma funcional: lambda, let bindings, closures
+Conjuntos aninhados com profundidade ilimitada
 ```
 
 ### 8.2 Casos de Teste por Categoria
 
 #### 8.2.1 Operações Básicas (5 testes)
-- ✅ União de conjuntos disjuntos
-- ✅ Interseção de conjuntos com elementos comuns
-- ✅ Diferença simétrica
-- ✅ Pertencimento verdadeiro e falso
-- ✅ Cardinalidade de conjuntos vazios e não-vazios
+- nião de conjuntos disjuntos
+- Interseção de conjuntos com elementos comuns
+- Diferença simétrica
+- Pertencimento verdadeiro e falso
+- Cardinalidade de conjuntos vazios e não-vazios
 
 #### 8.2.2 Operações Relacionais (7 testes)
-- ✅ Subconjunto próprio e impróprio
-- ✅ Superconjunto próprio e impróprio
-- ✅ Conjuntos disjuntos e não-disjuntos
-- ✅ Igualdade com ordem diferente
-- ✅ Desigualdade estrutural
+- Subconjunto próprio e impróprio
+- Superconjunto próprio e impróprio
+- Conjuntos disjuntos e não-disjuntos
+- Igualdade com ordem diferente
+- Desigualdade estrutural
 
 #### 8.2.3 Operações de Distribuição (4 testes)
-- ✅ Produto cartesiano e verificação de cardinalidade
-- ✅ Flatten de conjuntos aninhados (1 nível)
-- ✅ Powerset e verificação 2^n
-- ✅ Pertencimento em powerset
+- Produto cartesiano e verificação de cardinalidade
+- Flatten de conjuntos aninhados (1 nível)
+- Powerset e verificação 2^n
+- Pertencimento em powerset
 
 #### 8.2.4 Operações com Range (8 testes)
-- ✅ Range simples crescente (1...5)
-- ✅ Range maior (1...10)
-- ✅ Range decrescente (10...1)
-- ✅ Cardinalidade de range (#(1...100))
-- ✅ Pertencimento em range (3 in (1...10))
-- ✅ União de ranges consecutivos
-- ✅ Interseção de ranges sobrepostos
-- ✅ Powerset de range pequeno
+- Range simples crescente (1...5)
+- Range maior (1...10)
+- Range decrescente (10...1)
+- Cardinalidade de range (#(1...100))
+- Pertencimento em range (3 in (1...10))
+- União de ranges consecutivos
+- Interseção de ranges sobrepostos
+- Powerset de range pequeno
 
 #### 8.2.5 Conjuntos Aninhados (4 testes)
-- ✅ Criação de conjunto de conjuntos
-- ✅ Pertencimento de conjunto em conjunto de conjuntos
-- ✅ Cardinalidade de conjunto de conjuntos
-- ✅ Profundidade 3 ou mais
+- Criação de conjunto de conjuntos
+- Pertencimento de conjunto em conjunto de conjuntos
+- Cardinalidade de conjunto de conjuntos
+- Profundidade 3 ou mais
 
 #### 8.2.6 Exemplos Compostos (4 testes)
-- ✅ Flatten após união
-- ✅ Pertencimento no resultado de powerset
-- ✅ Cardinalidade de produto cartesiano
-- ✅ Composição de múltiplas operações
+- Flatten após união
+- Pertencimento no resultado de powerset
+- Cardinalidade de produto cartesiano
+- Composição de múltiplas operações
 
 #### 8.2.7 Programação Funcional (3 testes)
-- ✅ Aplicação de lambda com união
-- ✅ Composição de funções
-- ✅ Range com lambda
+- Aplicação de lambda com união
+- Composição de funções
+- Range com lambda
 
 ### 8.3 Cobertura de Testes
 
@@ -745,17 +745,15 @@ class AmbienteExecucaoMap implements AmbienteExecucao {
 |---------|-----------|--------|
 | `README.md` | Este arquivo (visão geral completa) | ~1000 |
 | `BNF_SETEXPR.md` | BNF completa com exemplos | 467 |
-| `APRESENTACAO.md` | Slides acadêmicos detalhados | 945 |
-| `GUIA_APRESENTADOR.md` | Roteiro de apresentação (74 min) | ~350 |
+| `APRESENTACAO.md` | Slides detalhados | 945 |
 | `demo-simples.ps1` | Script de demonstração automatizada | ~150 |
 
 ### 10.2 Links Úteis
 
-- 📊 **[Slides da Apresentação](https://docs.google.com/presentation/d/1vDxkcSzXv5n8ovFE0-ypeOXpedVMhpVY6QS7jWMnf0k/edit?slide=id.p12#slide=id.p12)**
-- 📖 [BNF Completa](./BNF_SETEXPR.md)
-- 📝 [Apresentação Acadêmica](./APRESENTACAO.md)
-- 🎤 [Guia do Apresentador](./GUIA_APRESENTADOR.md)
-- 🧪 [Script de Demonstração](./demo-simples.ps1)
+- **[Slides da Apresentação](https://docs.google.com/presentation/d/1vDxkcSzXv5n8ovFE0-ypeOXpedVMhpVY6QS7jWMnf0k/edit?slide=id.p12#slide=id.p12)**
+- [BNF Completa](./BNF_SETEXPR.md)
+- [Apresentação](./APRESENTACAO.md)
+- [Script de Demonstração](./demo-simples.ps1)
 
 ### 10.3 Estrutura do Repositório
 
@@ -837,11 +835,11 @@ projeto-plp-setexpr/
 | JavaScript | ⚠️ `Set` | 5 | ❌ Não | ❌ Não | Manual |
 
 **Vantagens do SetExpr:**
-- ✅ Sintaxe matemática natural (`A union B` vs `A.union(B)`)
-- ✅ 16 operações completas (maioria tem <10)
-- ✅ Conjuntos aninhados ilimitados
-- ✅ Range integrado (`1...5` gera conjunto)
-- ✅ Paradigma funcional puro
+- Sintaxe matemática natural (`A union B` vs `A.union(B)`)
+- 16 operações completas (maioria tem <10)
+- Conjuntos aninhados ilimitados
+- Range integrado (`1...5` gera conjunto)
+- Paradigma funcional puro
 
 ---
 
@@ -901,14 +899,14 @@ projeto-plp-setexpr/
 
 SetExpr demonstra com sucesso a integração entre **paradigma funcional** e **teoria de conjuntos**, oferecendo:
 
-✅ **16 operações matemáticas** completas e testadas  
-✅ **Sintaxe intuitiva** próxima à notação matemática  
-✅ **Paradigma funcional puro** com lambda e closures  
-✅ **Conjuntos aninhados** com profundidade ilimitada  
-✅ **Sistema de tipos robusto** com verificação estática  
-✅ **Performance adequada** com HashSet (O(1) para pertencimento)  
-✅ **Documentação completa** (>1000 linhas)  
-✅ **100% de testes passando** (35+ casos)  
+**16 operações matemáticas** completas e testadas  
+**Sintaxe intuitiva** próxima à notação matemática  
+**Paradigma funcional puro** com lambda e closures  
+**Conjuntos aninhados** com profundidade ilimitada  
+**Sistema de tipos robusto** com verificação estática  
+**Performance adequada** com HashSet (O(1) para pertencimento)  
+**Documentação completa** (>1000 linhas)  
+**100% de testes passando** (35+ casos)  
 
 ### Contribuições Acadêmicas
 
